@@ -6,7 +6,7 @@
 
     using AspNetCoreTemplate.Data.Common.Models;
 
-    public abstract class Account : BaseModel<int>
+    public class Account : BaseModel<int>
     {
         [Required(ErrorMessage = "Моля въведете потребителско име")]
         [Display(Name = "Потребителско име")]
@@ -47,10 +47,6 @@
 
         public ICollection<DebitCard> DebitCards { get; set; }
 
-        public double AccountBalance
-        {
-            get { return this.AccountBalance; }
-            set { this.AccountBalance = 0.00f; }
-        }
+        public double AccountBalance { get; set; }
     }
 }

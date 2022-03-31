@@ -8,21 +8,19 @@
     using AspNetCoreTemplate.Data.Common.Repositories;
     using AspNetCoreTemplate.Data.Models;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
 
     public class AccountController : BaseController
     {
-        private readonly IRepository<User> usersRepository;
+        private readonly IRepository<Account> accountsRepository;
         private readonly IRepository<DebitCard> debitCardsRepository;
 
         // private readonly SignInManager signInManager
         public AccountController(
-            IRepository<User> usersRepository,
+            IRepository<Account> accountsRepository,
             IRepository<DebitCard> debitCardsRepository)
         {
-            this.usersRepository = usersRepository;
+            this.accountsRepository = accountsRepository;
             this.debitCardsRepository = debitCardsRepository;
         }
 
@@ -33,21 +31,21 @@
 
         public IActionResult Create()
         {
-            var model = new User();
+            var model = new Account();
             return this.View(model);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> CreateAsync(User user)
+        public async Task<IActionResult> CreateAsync(Account account)
         {
             if (this.ModelState.IsValid)
             {
-                if (!this.usersRepository.All().Any(x => x.Username == user.Username))
+                if (!this.accountsRepository.All().Any(x => x.Username == account.Username))
                 {
-                    await this.usersRepository.AddAsync(user);
-                    await this.usersRepository.SaveChangesAsync();
-                    this.HttpContext.Session.SetString("username", user.Username);
+                    await this.accountsRepository.AddAsync(account);
+                    await this.accountsRepository.SaveChangesAsync();
+                    this.HttpContext.Session.SetString("username", account.Username);
                     return this.RedirectToAction("Index", "Home");
                 }
                 else
@@ -63,7 +61,7 @@
 
         public IActionResult Login()
         {
-            var model = new User();
+            var model = new Account();
             return this.View(model);
         }
 
@@ -73,9 +71,9 @@
         {
             if (this.ModelState.IsValid)
             {
-                if (this.usersRepository.All().Any(x => x.Username == username))
+                if (this.accountsRepository.All().Any(x => x.Username == username))
                 {
-                    var selectedUser = this.usersRepository.All()
+                    var selectedUser = this.accountsRepository.All()
                         .FirstOrDefault(x => x.Username == username);
 
                     if (password == selectedUser.Password)
@@ -95,8 +93,10 @@
                     return this.View();
                 }
             }
-
-            return this.View();
+            else
+            {
+                return this.View();
+            }
         }
 
         public IActionResult AddDebitCard()
@@ -113,11 +113,11 @@
             {
                 var loggedUser = this.HttpContext.Session.GetString("username");
 
-                this.usersRepository.All()
+                this.accountsRepository.All()
                     .FirstOrDefault(x => x.Username == loggedUser)
                     .DebitCards.Add(debitCard);
 
-                await this.usersRepository.SaveChangesAsync();
+                await this.accountsRepository.SaveChangesAsync();
             }
 
             return this.View();

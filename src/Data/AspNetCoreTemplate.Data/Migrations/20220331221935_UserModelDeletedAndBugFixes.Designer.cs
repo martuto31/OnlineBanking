@@ -4,14 +4,16 @@ using AspNetCoreTemplate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AspNetCoreTemplate.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220331221935_UserModelDeletedAndBugFixes")]
+    partial class UserModelDeletedAndBugFixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,18 +86,16 @@ namespace AspNetCoreTemplate.Data.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CVCCode")
-                        .IsRequired()
+                    b.Property<int>("CVCCode")
                         .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("int");
 
                     b.Property<double>("CardBalance")
                         .HasColumnType("float");
 
-                    b.Property<string>("CardNumber")
-                        .IsRequired()
+                    b.Property<int>("CardNumber")
                         .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -113,7 +113,7 @@ namespace AspNetCoreTemplate.Data.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("DebitCards");
+                    b.ToTable("DebitCard");
                 });
 
             modelBuilder.Entity("AspNetCoreTemplate.Data.Models.Transactions", b =>

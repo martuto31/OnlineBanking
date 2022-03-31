@@ -24,7 +24,11 @@
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+
+        public DbSet<DebitCard> DebitCards { get; set; }
+
+        public DbSet<Transactions> Transactions { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

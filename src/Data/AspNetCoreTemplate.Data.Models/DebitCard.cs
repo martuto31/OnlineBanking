@@ -11,18 +11,20 @@
     {
         [Required(ErrorMessage = "Моля въведете номерът на картата")]
         [Display(Name = "Номер на картата")]
-        [StringLength(16)]
-        public int CardNumber { get; set; }
+        [RegularExpression("([0-9]+)", ErrorMessage = "Моля въведете валидна стойност")]
+        [StringLength(16, ErrorMessage = "Номерът на картата трябва да се състои от 16 цифри без място")]
+        public string CardNumber { get; set; }
 
         [Required(ErrorMessage = "Моля въведете датата на изтичане на валидността")]
         [Display(Name = "Дата на валидност")]
         [DataType(DataType.DateTime)]
         public DateTime ExpirationDate { get; set; }
 
-        [StringLength(3)]
         [Required(ErrorMessage = "Моля въведете секретният код")]
         [Display(Name = "CVC")]
-        public int CVCCode { get; set; }
+        [RegularExpression("([0-9]+)", ErrorMessage = "Моля въведете валидна стойност")]
+        [StringLength(3)]
+        public string CVCCode { get; set; }
 
         [Display(Name = "Валута")]
         [DisplayFormat(DataFormatString = "{0:Y}", ApplyFormatInEditMode = true)]
@@ -31,11 +33,7 @@
         [Required]
         public Currency Currency { get; set; }
 
-        public double CardBalance
-        {
-            get { return this.CardBalance; }
-            set { this.CardBalance = 0.00f; }
-        }
+        public double CardBalance { get; set; }
 
         public Account Account { get; set; }
 
