@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace AspNetCoreTemplate.Data.Migrations
+﻿namespace AspNetCoreTemplate.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AccountTableUpdated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -11,7 +11,7 @@ namespace AspNetCoreTemplate.Data.Migrations
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -21,7 +21,7 @@ namespace AspNetCoreTemplate.Data.Migrations
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -31,7 +31,7 @@ namespace AspNetCoreTemplate.Data.Migrations
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -41,7 +41,7 @@ namespace AspNetCoreTemplate.Data.Migrations
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -51,7 +51,7 @@ namespace AspNetCoreTemplate.Data.Migrations
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "",
+                defaultValue: string.Empty,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
@@ -61,14 +61,14 @@ namespace AspNetCoreTemplate.Data.Migrations
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<string>(
                 name: "Username",
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

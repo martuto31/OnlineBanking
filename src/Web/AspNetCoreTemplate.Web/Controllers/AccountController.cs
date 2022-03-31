@@ -14,16 +14,16 @@
 
     public class AccountController : BaseController
     {
-        private readonly IRepository<User> _usersRepository;
-        private readonly IRepository<DebitCard> _debitCardsRepository;
+        private readonly IRepository<User> usersRepository;
+        private readonly IRepository<DebitCard> debitCardsRepository;
 
         // private readonly SignInManager signInManager
-
-        public AccountController(IRepository<User> usersRepository,
+        public AccountController(
+            IRepository<User> usersRepository,
             IRepository<DebitCard> debitCardsRepository)
         {
-            this._usersRepository = usersRepository;
-            this._debitCardsRepository = debitCardsRepository;
+            this.usersRepository = usersRepository;
+            this.debitCardsRepository = debitCardsRepository;
         }
 
         public IActionResult Index()
@@ -43,10 +43,10 @@
         {
             if (this.ModelState.IsValid)
             {
-                if (!this._usersRepository.All().Any(x => x.Username == user.Username))
+                if (!this.usersRepository.All().Any(x => x.Username == user.Username))
                 {
-                    await this._usersRepository.AddAsync(user);
-                    await this._usersRepository.SaveChangesAsync();
+                    await this.usersRepository.AddAsync(user);
+                    await this.usersRepository.SaveChangesAsync();
                     this.HttpContext.Session.SetString("username", user.Username);
                     return this.RedirectToAction("Index", "Home");
                 }
@@ -73,9 +73,9 @@
         {
             if (this.ModelState.IsValid)
             {
-                if (this._usersRepository.All().Any(x => x.Username == username))
+                if (this.usersRepository.All().Any(x => x.Username == username))
                 {
-                    var selectedUser = this._usersRepository.All()
+                    var selectedUser = this.usersRepository.All()
                         .FirstOrDefault(x => x.Username == username);
 
                     if (password == selectedUser.Password)
@@ -113,11 +113,11 @@
             {
                 var loggedUser = this.HttpContext.Session.GetString("username");
 
-                this._usersRepository.All()
+                this.usersRepository.All()
                     .FirstOrDefault(x => x.Username == loggedUser)
                     .DebitCards.Add(debitCard);
 
-                await this._usersRepository.SaveChangesAsync();
+                await this.usersRepository.SaveChangesAsync();
             }
 
             return this.View();

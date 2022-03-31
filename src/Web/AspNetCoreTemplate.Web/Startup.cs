@@ -9,9 +9,7 @@
     using AspNetCoreTemplate.Data.Models;
     using AspNetCoreTemplate.Data.Repositories;
     using AspNetCoreTemplate.Data.Seeding;
-    using AspNetCoreTemplate.Services.Data;
     using AspNetCoreTemplate.Services.Mapping;
-    using AspNetCoreTemplate.Services.Messaging;
     using AspNetCoreTemplate.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -37,9 +35,6 @@
         {
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -72,10 +67,6 @@
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-
-            // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace AspNetCoreTemplate.Data.Migrations
+﻿namespace AspNetCoreTemplate.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class TransactionModelWithOneToManyConnectionToDebitCardAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +21,7 @@ namespace AspNetCoreTemplate.Data.Migrations
                     Payment = table.Column<double>(type: "float", nullable: false),
                     DebitCardId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                 },
                 constraints: table =>
                 {

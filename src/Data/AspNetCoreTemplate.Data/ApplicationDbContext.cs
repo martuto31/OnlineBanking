@@ -12,7 +12,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class ApplicationDbContext : DbContext
     {
         private static readonly MethodInfo SetIsDeletedQueryFilterMethod =
             typeof(ApplicationDbContext).GetMethod(
@@ -23,8 +23,6 @@
             : base(options)
         {
         }
-
-        public DbSet<Setting> Settings { get; set; }
 
         public DbSet<User> Users { get; set; }
 
