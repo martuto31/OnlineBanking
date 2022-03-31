@@ -1,5 +1,6 @@
 ﻿namespace AspNetCoreTemplate.Web
 {
+    using System;
     using System.Reflection;
 
     using AspNetCoreTemplate.Data;
@@ -62,6 +63,16 @@
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
+            // session
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
@@ -100,11 +111,13 @@
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSession();
+
             app.UseEndpoints(
                 endpoints =>
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapControllerRoute("default", "{controller=Account}/{action=Login}/{id?}");
                         endpoints.MapRazorPages();
                     });
         }

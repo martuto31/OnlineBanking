@@ -4,14 +4,16 @@ using AspNetCoreTemplate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AspNetCoreTemplate.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220330234737_CardBalanceAndAccBalanceAdded")]
+    partial class CardBalanceAndAccBalanceAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -210,16 +212,14 @@ namespace AspNetCoreTemplate.Data.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CVCCode")
-                        .HasMaxLength(3)
-                        .HasColumnType("int");
+                    b.Property<string>("CVCCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("CardBalance")
                         .HasColumnType("float");
 
-                    b.Property<int>("CardNumber")
-                        .HasMaxLength(16)
-                        .HasColumnType("int");
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -270,44 +270,6 @@ namespace AspNetCoreTemplate.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Settings");
-                });
-
-            modelBuilder.Entity("AspNetCoreTemplate.Data.Models.Transactions", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DebitCardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Payment")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Receipt")
-                        .HasColumnType("float");
-
-                    b.Property<int>("TransactionCurrency")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DebitCardId");
-
-                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -430,15 +392,6 @@ namespace AspNetCoreTemplate.Data.Migrations
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("AspNetCoreTemplate.Data.Models.Transactions", b =>
-                {
-                    b.HasOne("AspNetCoreTemplate.Data.Models.DebitCard", "DebitCard")
-                        .WithMany("Transactions")
-                        .HasForeignKey("DebitCardId");
-
-                    b.Navigation("DebitCard");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("AspNetCoreTemplate.Data.Models.ApplicationRole", null)
@@ -502,11 +455,6 @@ namespace AspNetCoreTemplate.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
-                });
-
-            modelBuilder.Entity("AspNetCoreTemplate.Data.Models.DebitCard", b =>
-                {
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

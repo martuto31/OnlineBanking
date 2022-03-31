@@ -26,6 +26,8 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -72,6 +74,16 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            // OneToMany connection - 1 account has many debit cards
+            builder.Entity<Account>()
+                .HasMany(c => c.DebitCards)
+                .WithOne(e => e.Account);
+
+            // OneToMany connection - 1 debit card has many transactions
+            builder.Entity<DebitCard>()
+                .HasMany(c => c.Transactions)
+                .WithOne(e => e.DebitCard);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
