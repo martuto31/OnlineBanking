@@ -112,24 +112,31 @@
             if (this.ModelState.IsValid)
             {
                 var loggedUser = this.HttpContext.Session.GetString("username");
-
-                var currLoggedUser = this.accountsRepository.All()
+                if (loggedUser != null)
+                {
+                    var currLoggedUser = this.accountsRepository.All()
                     .FirstOrDefault(x => x.Username == loggedUser);
 
-                var card = new DebitCard()
-                {
-                    Account = currLoggedUser,
-                    CardBalance = 0.00f,
-                    CardNumber = debitCard.CardNumber,
-                    ExpirationDate = debitCard.ExpirationDate,
-                    CreatedOn = DateTime.UtcNow,
-                    Currency = debitCard.Currency,
-                    CVCCode = debitCard.CVCCode,
-                    Id = debitCard.Id,
-                };
+                    var card = new DebitCard()
+                    {
+                        Account = currLoggedUser,
+                        CardBalance = 0.00f,
+                        CardNumber = debitCard.CardNumber,
+                        ExpirationDate = debitCard.ExpirationDate,
+                        CreatedOn = DateTime.UtcNow,
+                        Currency = debitCard.Currency,
+                        CVCCode = debitCard.CVCCode,
+                        Id = debitCard.Id,
+                    };
 
-                await this.debitCardsRepository.AddAsync(card);
-                await this.debitCardsRepository.SaveChangesAsync();
+                    await this.debitCardsRepository.AddAsync(card);
+                    await this.debitCardsRepository.SaveChangesAsync();
+                    return this.RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return this.RedirectToAction("Login", "Account");
+                }
             }
 
             return this.View();
