@@ -7,6 +7,7 @@
 
     using AspNetCoreTemplate.Data.Common.Repositories;
     using AspNetCoreTemplate.Data.Models;
+    using AspNetCoreTemplate.Services.Data.Account;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
@@ -14,14 +15,16 @@
     {
         private readonly IRepository<Account> accountsRepository;
         private readonly IRepository<DebitCard> debitCardsRepository;
+        private readonly IBaseAccountService accountService;
 
-        // private readonly SignInManager signInManager
         public AccountController(
             IRepository<Account> accountsRepository,
-            IRepository<DebitCard> debitCardsRepository)
+            IRepository<DebitCard> debitCardsRepository,
+            IBaseAccountService accountService)
         {
             this.accountsRepository = accountsRepository;
             this.debitCardsRepository = debitCardsRepository;
+            this.accountService = accountService;
         }
 
         public IActionResult Index()
@@ -41,7 +44,7 @@
         {
             if (this.ModelState.IsValid)
             {
-                if (!this.accountsRepository.All().Any(x => x.Username == account.Username))
+                if (!this.accountService.CheckIfAccountExist(account.Username))
                 {
                     await this.accountsRepository.AddAsync(account);
                     await this.accountsRepository.SaveChangesAsync();
@@ -71,10 +74,9 @@
         {
             if (this.ModelState.IsValid)
             {
-                if (this.accountsRepository.All().Any(x => x.Username == username))
+                if (this.accountService.CheckIfAccountExist(username))
                 {
-                    var selectedUser = this.accountsRepository.All()
-                        .FirstOrDefault(x => x.Username == username);
+                    var selectedUser = this.accountService.GetAccount(username);
 
                     if (password == selectedUser.Password)
                     {
@@ -114,8 +116,7 @@
                 var loggedUser = this.HttpContext.Session.GetString("username");
                 if (loggedUser != null)
                 {
-                    var currLoggedUser = this.accountsRepository.All()
-                    .FirstOrDefault(x => x.Username == loggedUser);
+                    var currLoggedUser = this.accountService.GetAccount(loggedUser);
 
                     var card = new DebitCard()
                     {

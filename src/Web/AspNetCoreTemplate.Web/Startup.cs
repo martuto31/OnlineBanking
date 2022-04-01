@@ -9,6 +9,7 @@
     using AspNetCoreTemplate.Data.Models;
     using AspNetCoreTemplate.Data.Repositories;
     using AspNetCoreTemplate.Data.Seeding;
+    using AspNetCoreTemplate.Services.Data.Account;
     using AspNetCoreTemplate.Services.Mapping;
     using AspNetCoreTemplate.Web.ViewModels;
 
@@ -58,6 +59,7 @@
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
+            services.AddScoped<IBaseAccountService, BaseAccountService>();
 
             // session
             services.AddDistributedMemoryCache();
