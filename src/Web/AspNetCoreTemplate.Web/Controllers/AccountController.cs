@@ -113,11 +113,23 @@
             {
                 var loggedUser = this.HttpContext.Session.GetString("username");
 
-                this.accountsRepository.All()
-                    .FirstOrDefault(x => x.Username == loggedUser)
-                    .DebitCards.Add(debitCard);
+                var currLoggedUser = this.accountsRepository.All()
+                    .FirstOrDefault(x => x.Username == loggedUser);
 
-                await this.accountsRepository.SaveChangesAsync();
+                var card = new DebitCard()
+                {
+                    Account = currLoggedUser,
+                    CardBalance = 0.00f,
+                    CardNumber = debitCard.CardNumber,
+                    ExpirationDate = debitCard.ExpirationDate,
+                    CreatedOn = DateTime.UtcNow,
+                    Currency = debitCard.Currency,
+                    CVCCode = debitCard.CVCCode,
+                    Id = debitCard.Id,
+                };
+
+                await this.debitCardsRepository.AddAsync(card);
+                await this.debitCardsRepository.SaveChangesAsync();
             }
 
             return this.View();
