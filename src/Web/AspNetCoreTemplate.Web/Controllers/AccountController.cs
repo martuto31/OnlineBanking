@@ -46,7 +46,28 @@
             {
                 if (!this.accountService.CheckIfAccountExist(account.Username))
                 {
-                    await this.accountsRepository.AddAsync(account);
+                    Random random = new Random();
+                    random.Next(0000, 9999);
+                    var acc = new Account()
+                    {
+                        AccountBalance = 0.00f,
+                        Username = account.Username,
+                        Password = account.Password,
+                        ConfirmPassword = account.ConfirmPassword,
+                        DebitCards = account.DebitCards,
+                        Address = account.Address,
+                        Age = account.Age,
+                        Email = account.Email,
+                        FirstName = account.FirstName,
+                        LastName = account.LastName,
+                        Id = account.Id,
+                        ModifiedOn = account.ModifiedOn,
+                        IBAN = "BG" + random.Next(0000, 9999) + "GLIGI" + random.Next(00000000, 99999999),
+                        CreatedOn = account.CreatedOn,
+                        Currency = account.Currency,
+                    };
+
+                    await this.accountsRepository.AddAsync(acc);
                     await this.accountsRepository.SaveChangesAsync();
                     this.HttpContext.Session.SetString("username", account.Username);
                     return this.RedirectToAction("Index", "Home");

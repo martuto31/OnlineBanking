@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
+@model AspNetCoreTemplate.Data.Models.Account
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     this.ViewData["Title"] = "Home Page";
@@ -21,12 +22,12 @@
             </thead>
             <tbody style="background-color: #B2E7E8">
                 <tr class="home-content-dataTable" style="height: 5vh">
-                    <td>122</td>
-                    <td>22222</td>
-                    <td>32</td>
-                    <td>42</td>
-                    <td>52</td>
-                    <td>26</td>
+                    <td>123</td>
+                    <td>@Model.IBAN</td>
+                    <td>@Model.AccountBalance</td>
+                    <td>@Model.Currency</td>
+                    <td>Картови сметки</td>
+                    <td>@Model.FirstName @Model.LastName</td>
                 </tr>
             </tbody>
         </table>

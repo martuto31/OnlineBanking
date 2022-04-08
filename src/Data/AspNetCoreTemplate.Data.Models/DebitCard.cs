@@ -33,6 +33,7 @@
         [Required]
         public Currency Currency { get; set; }
 
+        [Required]
         public double CardBalance { get; set; }
 
         public Account Account { get; set; }

@@ -43,10 +43,16 @@
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
-        protected string IBAN { get; set; }
-
         public ICollection<DebitCard> DebitCards { get; set; }
 
+        [Range(1, int.MaxValue)]
+        [Required(ErrorMessage = "Моля изберете валута")]
+        [Display(Name = "Изберете валута")]
+        public Currency Currency { get; set; }
+
+        [Required]
         public double AccountBalance { get; set; }
+
+        public string IBAN { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     using AspNetCoreTemplate.Data.Common.Models;
@@ -15,6 +16,7 @@
         public Currency TransactionCurrency { get; set; }
 
         // Postupleniq/Income
+        [Required]
         public double Receipt { get; set; }
 
         public double Payment { get; set; }
