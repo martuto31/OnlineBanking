@@ -1,6 +1,40 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+/*My code */
+
+.home-content {
+    width: 60vw;
+}
+
+.home-content-header-container{
+    height: 7vh;
+    background-color: #304D63;
+    text-align: left;
+    font-family: 'Courier New';
+    font-size: 2.5rem;
+    color: white;
+}
+
+.home-content-header{
+    padding-top: 1.5vh;
+    padding-left: 2vw;
+}
+
+.home-content-dataTable-container{
+    height: 8vh;
+}
+
+.home-content-dataTable th {
+    padding-left: 0.5vw;
+}
+
+.home-content-dataTable td {
+    padding-left: 0.5vw;
+}
+
+/* My code\ */
+
 a.navbar-brand {
     white-space: normal;
     text-align: center;

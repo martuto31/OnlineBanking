@@ -25,7 +25,7 @@
             return selectedAccount;
         }
 
-        public virtual bool CheckIfAccountExist (string username)
+        public virtual bool CheckIfAccountExist(string username)
         {
             bool exist = this.accountsRepository.All()
                 .Any(x => x.Username == username);

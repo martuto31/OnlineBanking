@@ -3,8 +3,32 @@
 @{
     this.ViewData["Title"] = "Home Page";
 }
-
-<h1>@HttpContextAccessor.HttpContext.Session.GetString("username")</h1>
-
-
-
+<div class="home-content">
+    <div class="home-content-header-container">
+        <p class="home-content-header">Моите сметки</p>
+    </div>
+    <div class="home-content-dataTable-container">
+        <table style="width: 100%">
+            <thead style="background-color: #F2D096">
+                <tr class="home-content-dataTable" style="height: 6vh">
+                    <th style="width: 10%">Операция</th>
+                    <th style="width: 20%">IBAN</th>
+                    <th style="width: 15%">Разполагаемост</th>
+                    <th style="width: 10%">Валута</th>
+                    <th style="width: 20%">Вид на сметката</th>
+                    <th style="width: 20%">Титуляр на сметката</th>
+                </tr>
+            </thead>
+            <tbody style="background-color: #B2E7E8">
+                <tr class="home-content-dataTable" style="height: 5vh">
+                    <td>122</td>
+                    <td>22222</td>
+                    <td>32</td>
+                    <td>42</td>
+                    <td>52</td>
+                    <td>26</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

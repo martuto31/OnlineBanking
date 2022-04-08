@@ -43,7 +43,7 @@
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
-        public string IBAN { get; set; }
+        protected string IBAN { get; set; }
 
         public ICollection<DebitCard> DebitCards { get; set; }
 
