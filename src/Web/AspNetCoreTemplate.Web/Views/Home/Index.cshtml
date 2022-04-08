@@ -22,7 +22,11 @@
             </thead>
             <tbody style="background-color: #B2E7E8">
                 <tr class="home-content-dataTable" style="height: 5vh">
-                    <td>123</td>
+                    <td>
+                        <a class="info-operation" asp-controller="Home" asp-action="Information"><i class="fa-solid fa-circle-info"></i></a>
+
+                        <a class="transaction-operation" asp-controller="" asp-action=""><i class="fa-solid fa-list"></i></a>
+                    </td>
                     <td>@Model.IBAN</td>
                     <td>@Model.AccountBalance</td>
                     <td>@Model.Currency</td>

@@ -33,8 +33,35 @@ for details on configuring this project to bundle and minify static web assets. 
     padding-left: 0.5vw;
 }
 
-/* My code\ */
+.details ul {
+    list-style-type: none;
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+}
 
+
+.details li{
+    height: 7vh;
+}
+
+.details span {
+    display: inline-table;
+    width: 15vw;
+    height: 100%;
+    margin-top: 2.5vh;
+    padding-left: 0.5vw;
+    font-size: 1.7rem;
+}
+
+.details li:nth-child(even){
+    background-color: lightblue;
+}
+
+.details li:nth-child(odd) {
+    background-color: white;
+}
+/* My code\ */
 a.navbar-brand {
     white-space: normal;
     text-align: center;

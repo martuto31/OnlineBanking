@@ -32,6 +32,20 @@
             }
         }
 
+        public IActionResult Information()
+        {
+            var loggedUser = this.HttpContext.Session.GetString("username");
+            if (loggedUser != null)
+            {
+                var accountModel = this.accountService.GetAccount(loggedUser);
+                return this.View(accountModel);
+            }
+            else
+            {
+                return this.RedirectToAction("Login", "Account");
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

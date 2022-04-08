@@ -1,0 +1,50 @@
+﻿@model AspNetCoreTemplate.Data.Models.Account
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="">
+    <div class="home-content-header-container">
+        <p class="home-content-header">Информация за сметка</p>
+    </div>
+    <div class="details">
+        <ul>
+            <li>
+                <span>IBAN</span>
+                <span>@Model.IBAN</span>
+            </li>
+            <li>
+                <span>Титуляр</span>
+                <span>@Model.FirstName @Model.LastName</span>
+            </li>
+            <li>
+                <span>Валута</span>
+                <span>@Model.Currency</span>
+            </li>
+            <li>
+                <span>Разполагаемост</span>
+                <span>@Model.AccountBalance</span>
+            </li>
+            <li>
+                <span>Имейл адрес</span>
+                <span>@Model.Email</span>
+            </li>
+            <li>
+                <span>Дата на откриване</span>
+                <span>@Model.CreatedOn</span>
+            </li>
+            <li>
+                <span>Възраст на титуляр</span>
+                <span>@Model.Age</span>
+            </li>
+            <li>
+                <span>Адрес на титуляр</span>
+                <span>@Model.Address</span>
+            </li>
+            <li>
+                <span><a>Дебитни карти</a></span>
+            </li>
+        </ul>
+    </div>
+</div>
