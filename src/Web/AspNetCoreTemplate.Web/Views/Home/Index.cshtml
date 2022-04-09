@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
-@model AspNetCoreTemplate.Data.Models.Account
+@model AspNetCoreTemplate.Web.ViewModels.AccountViewModel
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     this.ViewData["Title"] = "Home Page";
@@ -23,16 +23,32 @@
             <tbody style="background-color: #B2E7E8">
                 <tr class="home-content-dataTable" style="height: 5vh">
                     <td>
-                        <a class="info-operation" asp-controller="Home" asp-action="Information"><i class="fa-solid fa-circle-info"></i></a>
-
                         <a class="transaction-operation" asp-controller="" asp-action=""><i class="fa-solid fa-list"></i></a>
                     </td>
-                    <td>@Model.IBAN</td>
-                    <td>@Model.AccountBalance</td>
-                    <td>@Model.Currency</td>
+                    <td>@Model.Account.IBAN</td>
+                    <td>@Model.Account.AccountBalance</td>
+                    <td>@Model.Account.Currency</td>
                     <td>Картови сметки</td>
-                    <td>@Model.FirstName @Model.LastName</td>
+                    <td>@Model.Account.FirstName @Model.Account.LastName</td>
                 </tr>
+                @if (Model.DebitCards != null)
+                {
+                    @foreach (var debitCard in Model.DebitCards)
+                    {
+                        <tr class="home-content-dataTable" style="height: 5vh">
+                            <td>
+                                <a class="info-operation" asp-controller="Home" asp-action="Information" asp-route-id="@debitCard.Id"><i class="fa-solid fa-circle-info"></i></a>
+
+                                <a class="transaction-operation" asp-controller="" asp-action=""><i class="fa-solid fa-list"></i></a>
+                            </td>
+                            <td>@debitCard.IBAN</td>
+                            <td>@debitCard.CardBalance</td>
+                            <td>@debitCard.Currency</td>
+                            <td>Дебитна карта</td>
+                            <td>@Model.Account.FirstName @Model.Account.LastName</td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
     </div>

@@ -137,11 +137,14 @@
                 var loggedUser = this.HttpContext.Session.GetString("username");
                 if (loggedUser != null)
                 {
+                    Random random = new Random();
+
                     var currLoggedUser = this.accountService.GetAccount(loggedUser);
 
                     var card = new DebitCard()
                     {
                         Account = currLoggedUser,
+                        IBAN = "BG" + random.Next(0000, 9999) + "GLIGI" + random.Next(00000000, 99999999),
                         CardBalance = 0.00f,
                         CardNumber = debitCard.CardNumber,
                         ExpirationDate = debitCard.ExpirationDate,

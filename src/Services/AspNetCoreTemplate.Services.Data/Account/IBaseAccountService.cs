@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     using AspNetCoreTemplate.Data.Models;
@@ -11,5 +12,9 @@
         Account GetAccount(string username);
 
         bool CheckIfAccountExist(string username);
+
+        IEnumerable<TViewModel> GetAccDebitCards<TViewModel>(Account account);
+
+        DebitCard GetDebitCard(int id);
     }
 }

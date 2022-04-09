@@ -1,4 +1,4 @@
-﻿@model AspNetCoreTemplate.Data.Models.Account
+﻿@model AspNetCoreTemplate.Web.ViewModels.DebitCardViewModel
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -12,38 +12,43 @@
         <ul>
             <li>
                 <span>IBAN</span>
-                <span>@Model.IBAN</span>
+                <span>@Model.DebitCard.IBAN</span>
             </li>
             <li>
-                <span>Титуляр</span>
-                <span>@Model.FirstName @Model.LastName</span>
+                <span>Номер на карта</span>
+                <span>@Model.DebitCard.CardNumber</span>
             </li>
             <li>
                 <span>Валута</span>
-                <span>@Model.Currency</span>
+                <span>@Model.DebitCard.Currency</span>
+            </li>
+            <li>
+                <span>Валидност</span>
+                <span>@Model.DebitCard.ExpirationDate</span>
+            </li>
+            <li>
+                <span>Титуляр</span>
+                <span>@Model.Account.FirstName @Model.Account.LastName</span>
             </li>
             <li>
                 <span>Разполагаемост</span>
-                <span>@Model.AccountBalance</span>
+                <span>@Model.DebitCard.CardBalance</span>
             </li>
             <li>
                 <span>Имейл адрес</span>
-                <span>@Model.Email</span>
+                <span>@Model.Account.Email</span>
             </li>
             <li>
                 <span>Дата на откриване</span>
-                <span>@Model.CreatedOn</span>
+                <span>@Model.Account.CreatedOn</span>
             </li>
             <li>
                 <span>Възраст на титуляр</span>
-                <span>@Model.Age</span>
+                <span>@Model.Account.Age</span>
             </li>
             <li>
                 <span>Адрес на титуляр</span>
-                <span>@Model.Address</span>
-            </li>
-            <li>
-                <span><a>Дебитни карти</a></span>
+                <span>@Model.Account.Address</span>
             </li>
         </ul>
     </div>

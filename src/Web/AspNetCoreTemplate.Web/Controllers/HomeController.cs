@@ -23,7 +23,14 @@
             var loggedUser = this.HttpContext.Session.GetString("username");
             if (loggedUser != null)
             {
-                var accountModel = this.accountService.GetAccount(loggedUser);
+                var account = this.accountService.GetAccount(loggedUser);
+                var debitCards = this.accountService.GetAccDebitCards<DebitCard>(account);
+
+                AccountViewModel accountModel = new AccountViewModel()
+                {
+                    Account = account,
+                    DebitCards = debitCards,
+                };
                 return this.View(accountModel);
             }
             else
@@ -32,12 +39,20 @@
             }
         }
 
-        public IActionResult Information()
+        public IActionResult Information(int id)
         {
             var loggedUser = this.HttpContext.Session.GetString("username");
             if (loggedUser != null)
             {
-                var accountModel = this.accountService.GetAccount(loggedUser);
+                var account = this.accountService.GetAccount(loggedUser);
+                var debitCard = this.accountService.GetDebitCard(id);
+
+                DebitCardViewModel accountModel = new DebitCardViewModel()
+                {
+                    Account = account,
+                    DebitCard = debitCard,
+                };
+
                 return this.View(accountModel);
             }
             else

@@ -36,6 +36,8 @@
         [Required]
         public double CardBalance { get; set; }
 
+        public string IBAN { get; set; }
+
         public Account Account { get; set; }
 
         public ICollection<Transactions> Transactions { get; set; }
