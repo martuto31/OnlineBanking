@@ -13,13 +13,16 @@
     {
         private readonly IRepository<Account> accountsRepository;
         private readonly IRepository<DebitCard> debitCardsRepository;
+        private readonly IRepository<Transactions> transactionsRepository;
 
         public BaseAccountService(
             IRepository<Account> accountsRepository,
-            IRepository<DebitCard> debitCardsRepository)
+            IRepository<DebitCard> debitCardsRepository,
+            IRepository<Transactions> transactionsRepository)
         {
             this.accountsRepository = accountsRepository;
             this.debitCardsRepository = debitCardsRepository;
+            this.transactionsRepository = transactionsRepository;
         }
 
         public virtual Account GetAccount(string username)
@@ -45,6 +48,15 @@
                 .To<TViewModel>();
 
             return debitCards;
+        }
+
+        public virtual IEnumerable<TViewModel> GetAllTransactions<TViewModel>(DebitCard debitCard)
+        {
+            var transactions = this.transactionsRepository.All()
+                .Where(d => d.DebitCard == debitCard)
+                .To<TViewModel>();
+
+            return transactions;
         }
 
         public virtual DebitCard GetDebitCard(int id)

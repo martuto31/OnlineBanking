@@ -28,7 +28,7 @@
                     <td>@Model.Account.IBAN</td>
                     <td>@Model.Account.AccountBalance</td>
                     <td>@Model.Account.Currency</td>
-                    <td>Картови сметки</td>
+                    <td>Банкова сметка</td>
                     <td>@Model.Account.FirstName @Model.Account.LastName</td>
                 </tr>
                 @if (Model.DebitCards != null)
@@ -39,7 +39,7 @@
                             <td>
                                 <a class="info-operation" asp-controller="Home" asp-action="Information" asp-route-id="@debitCard.Id"><i class="fa-solid fa-circle-info"></i></a>
 
-                                <a class="transaction-operation" asp-controller="" asp-action=""><i class="fa-solid fa-list"></i></a>
+                                <a class="transaction-operation" asp-controller="Home" asp-action="Transactions" asp-route-id="@debitCard.Id"><i class="fa-solid fa-list"></i></a>
                             </td>
                             <td>@debitCard.IBAN</td>
                             <td>@debitCard.CardBalance</td>

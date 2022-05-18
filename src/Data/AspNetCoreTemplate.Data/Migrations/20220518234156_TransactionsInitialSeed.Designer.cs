@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspNetCoreTemplate.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220331221935_UserModelDeletedAndBugFixes")]
-    partial class UserModelDeletedAndBugFixes
+    [Migration("20220518234156_TransactionsInitialSeed")]
+    partial class TransactionsInitialSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,6 +44,9 @@ namespace AspNetCoreTemplate.Data.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -86,16 +89,18 @@ namespace AspNetCoreTemplate.Data.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CVCCode")
+                    b.Property<string>("CVCCode")
+                        .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<double>("CardBalance")
                         .HasColumnType("float");
 
-                    b.Property<int>("CardNumber")
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
                         .HasMaxLength(16)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(16)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -106,6 +111,9 @@ namespace AspNetCoreTemplate.Data.Migrations
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("IBAN")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -113,7 +121,7 @@ namespace AspNetCoreTemplate.Data.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("DebitCard");
+                    b.ToTable("DebitCards");
                 });
 
             modelBuilder.Entity("AspNetCoreTemplate.Data.Models.Transactions", b =>

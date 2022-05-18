@@ -61,6 +61,28 @@
             }
         }
 
+        public IActionResult Transactions(int id)
+        {
+            var loggedUser = this.HttpContext.Session.GetString("username");
+            if (loggedUser != null)
+            {
+                var debitCard = this.accountService.GetDebitCard(id);
+                var transactions = this.accountService.GetAllTransactions<Transactions>(debitCard);
+
+                TransactionsViewModel transactionsViewModel = new TransactionsViewModel()
+                {
+                    DebitCard = debitCard,
+                    Transactions = transactions,
+                };
+
+                return this.View(transactionsViewModel);
+            }
+            else
+            {
+                return this.RedirectToAction("Login", "Account");
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
