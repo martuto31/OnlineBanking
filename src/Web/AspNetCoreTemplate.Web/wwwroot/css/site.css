@@ -27,6 +27,7 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .home-content-dataTable th {
     padding-left: 0.5vw;
+    font-size: 1.5rem;
 }
 
 .home-content-dataTable td {

@@ -1,30 +1,38 @@
 ﻿@model AspNetCoreTemplate.Web.ViewModels.TransactionsViewModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+@* Transactions UI*@
 <div class="">
+    @* Transaction header*@
     <div class="home-content-header-container">
-        <p class="home-content-header">Информация за сметка</p>
+        <p class="home-content-header">Трансакции</p>
     </div>
-    <div class="transaction-details">
-        <table>
-            <thead>
-                <tr>
-                    <td>
-                        @foreach (var transaction in Model.Transactions)
-                        {
-                            @transaction.Payment
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        asd2
-                    </th>
+    @* Transaction table data*@
+    <div class="home-content-dataTable-container">
+        <table style="width: 100%">
+            <thead style="background-color: #F2D096">
+                <tr class="home-content-dataTable" style="height: 6vh">
+                    <th style="width: 7vw">Дата</th>
+                    <th style="width: 15vw">Основание</th>
+                    <th style="width: 5vw">Постъпления</th>
+                    <th style="width: 5vw">Плащания</th>
+                    <th style="width: 5vw">Разполагаемост</th>
+                    <th style="width: 5vw">Валута</th>
                 </tr>
             </thead>
+            <tbody style="background-color: #B2E7E8">
+                @foreach (var transaction in Model.Transactions)
+                {
+                <tr class="home-content-dataTable" style="height: 6vh">
+                    @* Showing the date as yyyy-MM-dd format*@
+                    <td>@String.Format("{0:yyyy-MM-dd}", transaction.Date)</td>
+                    <td>@transaction.Message</td>
+                    @* Showing the rounded value to 2 decimal places for the receipt, payment and balance*@
+                    <td>@String.Format("{0:f2}", transaction.Receipt)</td>
+                    <td>@String.Format("{0:f2}", transaction.Payment)</td>
+                    <td>@String.Format("{0:f2}", transaction.Balance)</td>
+                    <td>@transaction.TransactionCurrency</td>
+                </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>
