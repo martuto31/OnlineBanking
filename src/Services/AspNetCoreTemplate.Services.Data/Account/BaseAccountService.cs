@@ -66,5 +66,41 @@
 
             return debitCard;
         }
+
+        public void AddFunds(DebitCard debitCardOfSender, int receiverDebitCardId, int amountOfFunds)
+        {
+            var cardOfSender = this.debitCardsRepository.All()
+                .Where(d => d.CardNumber == debitCardOfSender.CardNumber &&
+                    d.ExpirationDate == debitCardOfSender.ExpirationDate &&
+                    d.CVCCode == debitCardOfSender.CVCCode)
+                .SingleOrDefault();
+
+            var cardOfReceiver = this.GetDebitCard(receiverDebitCardId);
+
+            cardOfSender.CardBalance -= amountOfFunds;
+            cardOfReceiver.CardBalance += amountOfFunds;
+
+            this.debitCardsRepository.Update(cardOfSender);
+            this.debitCardsRepository.Update(cardOfReceiver);
+            this.debitCardsRepository.SaveChangesAsync();
+        }
+
+        public bool CheckIfDebitCardExist(DebitCard debitCard)
+        {
+            var card = this.debitCardsRepository.All()
+                 .Where(d => d.CardNumber == debitCard.CardNumber &&
+                     d.ExpirationDate == debitCard.ExpirationDate &&
+                     d.CVCCode == debitCard.CVCCode)
+                 .SingleOrDefault();
+
+            if (card != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

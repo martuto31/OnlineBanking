@@ -22,8 +22,8 @@
                 @foreach (var transaction in Model.Transactions)
                 {
                 <tr class="home-content-dataTable" style="height: 6vh">
-                    @* Showing the date as yyyy-MM-dd format*@
-                    <td>@String.Format("{0:yyyy-MM-dd}", transaction.Date)</td>
+                    @* Showing the date as dd.MM.yyyy format*@
+                    <td>@String.Format("{0:dd.MM.yyyy}", transaction.Date)</td>
                     <td>@transaction.Message</td>
                     @* Showing the rounded value to 2 decimal places for the receipt, payment and balance*@
                     <td>@String.Format("{0:f2}", transaction.Receipt)</td>

@@ -130,7 +130,7 @@
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> AddDebitCard(DebitCard debitCard)
+        public async Task<IActionResult> AddDebitCardAsync(DebitCard debitCard)
         {
             if (this.ModelState.IsValid)
             {
@@ -166,5 +166,14 @@
 
             return this.View();
         }
+
+        //[AutoValidateAntiforgeryToken]
+        //[HttpPut]
+        //public Task<IActionResult> AddFundsAsync(DebitCard debitCard, int amountOfFunds)
+        //{
+        //    //tursq po nomer na debitna karta i dobavqm v moqta smetka na debitna karta tolkova kolkoto amountOfFunds
+        //    //proverqmav sushtestvuva li takava debitna karta, proverqvam ima li dostatuchno sredstva i togava addfunds
+
+        //}
     }
 }

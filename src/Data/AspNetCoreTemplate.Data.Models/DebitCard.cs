@@ -29,7 +29,6 @@
         [Display(Name = "Валута")]
         [DisplayFormat(DataFormatString = "{0:Y}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Currency)]
-
         [Required]
         public Currency Currency { get; set; }
 

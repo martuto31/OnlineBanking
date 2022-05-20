@@ -24,7 +24,7 @@
             </li>
             <li>
                 <span>Валидност</span>
-                <span>@Model.DebitCard.ExpirationDate</span>
+                <span>@String.Format("{0:MM.yyyy}", Model.DebitCard.ExpirationDate)</span>
             </li>
             <li>
                 <span>Титуляр</span>
@@ -32,7 +32,7 @@
             </li>
             <li>
                 <span>Разполагаемост</span>
-                <span>@Model.DebitCard.CardBalance</span>
+                <span>@String.Format("{0:f2}", Model.Account.AccountBalance)</span>
             </li>
             <li>
                 <span>Имейл адрес</span>
@@ -40,7 +40,7 @@
             </li>
             <li>
                 <span>Дата на откриване</span>
-                <span>@Model.Account.CreatedOn</span>
+                <span>@String.Format("{0:dd.MM.yyyy}", Model.Account.CreatedOn)</span>
             </li>
             <li>
                 <span>Възраст на титуляр</span>

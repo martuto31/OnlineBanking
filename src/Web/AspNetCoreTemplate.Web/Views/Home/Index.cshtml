@@ -22,11 +22,9 @@
             </thead>
             <tbody style="background-color: #B2E7E8">
                 <tr class="home-content-dataTable" style="height: 5vh">
-                    <td>
-                        <a class="transaction-operation" asp-controller="" asp-action=""><i class="fa-solid fa-list"></i></a>
-                    </td>
+                    <td></td>
                     <td>@Model.Account.IBAN</td>
-                    <td>@Model.Account.AccountBalance</td>
+                    <td>@String.Format("{0:f2}", Model.Account.AccountBalance)</td>
                     <td>@Model.Account.Currency</td>
                     <td>Банкова сметка</td>
                     <td>@Model.Account.FirstName @Model.Account.LastName</td>
@@ -42,7 +40,7 @@
                                 <a class="transaction-operation" asp-controller="Home" asp-action="Transactions" asp-route-id="@debitCard.Id"><i class="fa-solid fa-list"></i></a>
                             </td>
                             <td>@debitCard.IBAN</td>
-                            <td>@debitCard.CardBalance</td>
+                            <td>@String.Format("{0:f2}", debitCard.CardBalance)</td>
                             <td>@debitCard.Currency</td>
                             <td>Дебитна карта</td>
                             <td>@Model.Account.FirstName @Model.Account.LastName</td>
