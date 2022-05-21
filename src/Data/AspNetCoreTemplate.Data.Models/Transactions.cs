@@ -19,10 +19,10 @@
 
         // Postupleniq/Income
         [Required]
-        public double Receipt { get; set; }
+        public decimal Receipt { get; set; }
 
         [Required]
-        public double Payment { get; set; }
+        public decimal Payment { get; set; }
 
         public DebitCard DebitCard { get; set; }
     }

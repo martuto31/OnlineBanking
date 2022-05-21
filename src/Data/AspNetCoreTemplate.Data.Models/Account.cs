@@ -51,7 +51,7 @@
         public Currency Currency { get; set; }
 
         [Required]
-        public double AccountBalance { get; set; }
+        public decimal AccountBalance { get; set; }
 
         public string IBAN { get; set; }
     }

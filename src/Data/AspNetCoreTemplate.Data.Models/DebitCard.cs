@@ -33,7 +33,7 @@
         public Currency Currency { get; set; }
 
         [Required]
-        public double CardBalance { get; set; }
+        public decimal CardBalance { get; set; }
 
         public string IBAN { get; set; }
 

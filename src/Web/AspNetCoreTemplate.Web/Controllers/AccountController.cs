@@ -53,7 +53,7 @@
                     random.Next(0000, 9999);
                     var acc = new Account()
                     {
-                        AccountBalance = 0.00f,
+                        AccountBalance = 0.00M,
                         Username = account.Username,
                         Password = account.Password,
                         ConfirmPassword = account.ConfirmPassword,
@@ -205,7 +205,7 @@
 
         [AutoValidateAntiforgeryToken]
         [HttpPost]
-        public async Task<IActionResult> AddFundsAsync(DebitCard debitCardOfSender, int id, double amountOfFunds)
+        public async Task<IActionResult> AddFundsAsync(DebitCard debitCardOfSender, int id, decimal amountOfFunds)
         {
             // id stands for the id of the receiver's debit card
             var cardOfSender = this.accountService.GetDebitCard(debitCardOfSender);
@@ -219,6 +219,12 @@
                 // Checks whether the sender's card has enough amount of funds.
                 if (cardOfSender.CardBalance >= amountOfFunds)
                 {
+                    // converting the amount of funds from the sender currency to the receiver currency
+                    decimal convertedAmountOfFunds = this.accountService.CurrencyConverter((decimal)amountOfFunds, cardOfSender.Currency, cardOfReceiver.Currency);
+
+                    var accountOfSender = this.accountService.GetAccountByIban(cardOfSender.IBAN);
+                    var accountOfReceiver = this.accountService.GetAccountByIban(cardOfReceiver.IBAN);
+
                     // Creating transaction for the debit card of the sender
                     Transactions transactionForSender = new Transactions()
                     {
@@ -228,19 +234,19 @@
                         Date = DateTime.UtcNow,
                         DebitCard = cardOfSender,
                         Message = "Transfer of funds",
-                        TransactionCurrency = currLoggedUser.Currency,
+                        TransactionCurrency = accountOfSender.Currency,
                     };
 
                     // Creating transaction for the debit card of the receiver
                     Transactions transactionForReceiver = new Transactions()
                     {
                         Payment = 0,
-                        Receipt = amountOfFunds,
+                        Receipt = convertedAmountOfFunds,
                         CreatedOn = DateTime.UtcNow,
                         Date = DateTime.UtcNow,
                         DebitCard = cardOfReceiver,
                         Message = "Transfer of funds",
-                        TransactionCurrency = currLoggedUser.Currency,
+                        TransactionCurrency = accountOfReceiver.Currency,
                     };
 
                     // Adding the transactions to the db
@@ -250,20 +256,17 @@
 
                     // Updating the cardBalance value in the database
                     cardOfSender.CardBalance -= amountOfFunds;
-                    cardOfReceiver.CardBalance += amountOfFunds;
+                    cardOfReceiver.CardBalance += convertedAmountOfFunds;
                     this.debitCardsRepository.Update(cardOfSender);
                     this.debitCardsRepository.Update(cardOfReceiver);
                     await this.debitCardsRepository.SaveChangesAsync();
 
                     // Updating the balance of the accounts after the transaction
-                    var accountOfSender = this.accountService.GetAccountByIban(cardOfSender.IBAN);
-                    var accountOfReceiver = this.accountService.GetAccountByIban(cardOfReceiver.IBAN);
                     accountOfSender.AccountBalance -= amountOfFunds;
-                    accountOfReceiver.AccountBalance += amountOfFunds;
+                    accountOfReceiver.AccountBalance += convertedAmountOfFunds;
                     this.accountsRepository.Update(accountOfSender);
                     this.accountsRepository.Update(accountOfSender);
                     await this.accountsRepository.SaveChangesAsync();
-
 
                     return this.Ok("Succesfull transaction");
                 }
