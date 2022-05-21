@@ -21,7 +21,7 @@
 
         DebitCard GetDebitCard(int id);
 
-        void AddFunds(DebitCard debitCard, int receiverDebitCardId, int amountOfFunds);
+        DebitCard GetDebitCard(DebitCard debitCard);
 
     }
 }

@@ -1,0 +1,36 @@
+﻿@model AspNetCoreTemplate.Data.Models.DebitCard
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="row">
+    <div class="col-md-10">
+        <form asp-controller="Account" asp-action="AddFunds" method="post">
+            <div asp-validation-summary="All">
+                <div class="form-group">
+                    <label asp-for="CardNumber" class="control-label"></label>
+                    <input asp-for="CardNumber" class="form-control" type="number" />
+                    <span asp-validation-for="CardNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExpirationDate" class="control-label"></label>
+                    <input asp-for="ExpirationDate" type="date" class="form-control" />
+                    <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CVCCode" class="control-label"></label>
+                    <input asp-for="CVCCode" class="form-control" type="password" />
+                    <span asp-validation-for="CVCCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="amountOfFunds" class="control-label">Сума на депозит</label>
+                    <input type="number" id="amountOfFunds" name="amountOfFunds" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Депозит" class="btn btn-danger" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

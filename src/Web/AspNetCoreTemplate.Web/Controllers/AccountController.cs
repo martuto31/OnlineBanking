@@ -15,15 +15,18 @@
     {
         private readonly IRepository<Account> accountsRepository;
         private readonly IRepository<DebitCard> debitCardsRepository;
+        private readonly IRepository<Transactions> transactionRepository;
         private readonly IBaseAccountService accountService;
 
         public AccountController(
             IRepository<Account> accountsRepository,
             IRepository<DebitCard> debitCardsRepository,
-            IBaseAccountService accountService)
+            IBaseAccountService accountService,
+            IRepository<Transactions> transactionRepository)
         {
             this.accountsRepository = accountsRepository;
             this.debitCardsRepository = debitCardsRepository;
+            this.transactionRepository = transactionRepository;
             this.accountService = accountService;
         }
 
@@ -122,6 +125,19 @@
             }
         }
 
+        public IActionResult Logout()
+        {
+            // Removes the username of the session
+            var loggedUser = this.HttpContext.Session.GetString("username");
+            if (loggedUser != null)
+            {
+                this.HttpContext.Session.Remove("username");
+                return this.RedirectToAction("Login", "Account");
+            }
+
+            return this.RedirectToAction("Login", "Account");
+        }
+
         public IActionResult AddDebitCard()
         {
             var model = new DebitCard();
@@ -145,7 +161,7 @@
                     {
                         Account = currLoggedUser,
                         IBAN = "BG" + random.Next(0000, 9999) + "GLIGI" + random.Next(00000000, 99999999),
-                        CardBalance = 0.00f,
+                        CardBalance = 200,
                         CardNumber = debitCard.CardNumber,
                         ExpirationDate = debitCard.ExpirationDate,
                         CreatedOn = DateTime.UtcNow,
@@ -167,13 +183,72 @@
             return this.View();
         }
 
-        //[AutoValidateAntiforgeryToken]
-        //[HttpPut]
-        //public Task<IActionResult> AddFundsAsync(DebitCard debitCard, int amountOfFunds)
-        //{
-        //    //tursq po nomer na debitna karta i dobavqm v moqta smetka na debitna karta tolkova kolkoto amountOfFunds
-        //    //proverqmav sushtestvuva li takava debitna karta, proverqvam ima li dostatuchno sredstva i togava addfunds
+        public IActionResult AddFunds()
+        {
+            var model = new DebitCard();
+            return this.View(model);
+        }
 
-        //}
+        [AutoValidateAntiforgeryToken]
+        [HttpPost]
+        public async Task<IActionResult> AddFundsAsync(DebitCard debitCardOfSender, int id, int amountOfFunds)
+        {
+            // id stands for the id of the receiver's debit card
+            var cardOfSender = this.accountService.GetDebitCard(debitCardOfSender);
+            var cardOfReceiver = this.accountService.GetDebitCard(id);
+
+            // Checks if the the card exists.
+            if (cardOfSender != null)
+            {
+                // Checks whether the sender's card has enough amount of funds.
+                if (cardOfSender.CardBalance >= amountOfFunds)
+                {
+                    // Creating transaction for the debit card of the sender
+                    Transactions transactionForSender = new Transactions()
+                    {
+                        Payment = amountOfFunds,
+                        Receipt = 0,
+                        CreatedOn = DateTime.UtcNow,
+                        Date = DateTime.UtcNow,
+                        DebitCard = cardOfSender,
+                        Message = "Transfer of funds",
+                        TransactionCurrency = debitCardOfSender.Currency,
+                    };
+
+                    Transactions transactionForReceiver = new Transactions()
+                    {
+                        Payment = 0,
+                        Receipt = amountOfFunds,
+                        CreatedOn = DateTime.UtcNow,
+                        Date = DateTime.UtcNow,
+                        DebitCard = cardOfReceiver,
+                        Message = "Transfer of funds",
+                        TransactionCurrency = debitCardOfSender.Currency,
+                    };
+
+                    cardOfSender.CardBalance -= amountOfFunds;
+                    cardOfReceiver.CardBalance += amountOfFunds;
+
+                    await this.transactionRepository.AddAsync(transactionForSender);
+                    await this.transactionRepository.AddAsync(transactionForReceiver);
+
+                    this.debitCardsRepository.Update(cardOfSender);
+                    this.debitCardsRepository.Update(cardOfReceiver);
+
+                    await this.transactionRepository.SaveChangesAsync();
+                    await this.debitCardsRepository.SaveChangesAsync();
+
+                    return this.Ok("Succesfull transaction");
+                }
+                else
+                {
+                    return this.Problem("Not enough funds in card.");
+                }
+            }
+            else
+            {
+                return this.BadRequest("Incorrect debit card information.");
+            }
+        }
     }
 }

@@ -67,7 +67,7 @@
             return debitCard;
         }
 
-        public void AddFunds(DebitCard debitCardOfSender, int receiverDebitCardId, int amountOfFunds)
+        public DebitCard GetDebitCard(DebitCard debitCardOfSender)
         {
             var cardOfSender = this.debitCardsRepository.All()
                 .Where(d => d.CardNumber == debitCardOfSender.CardNumber &&
@@ -75,14 +75,7 @@
                     d.CVCCode == debitCardOfSender.CVCCode)
                 .SingleOrDefault();
 
-            var cardOfReceiver = this.GetDebitCard(receiverDebitCardId);
-
-            cardOfSender.CardBalance -= amountOfFunds;
-            cardOfReceiver.CardBalance += amountOfFunds;
-
-            this.debitCardsRepository.Update(cardOfSender);
-            this.debitCardsRepository.Update(cardOfReceiver);
-            this.debitCardsRepository.SaveChangesAsync();
+            return cardOfSender;
         }
 
         public bool CheckIfDebitCardExist(DebitCard debitCard)
