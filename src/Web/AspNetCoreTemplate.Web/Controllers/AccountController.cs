@@ -197,7 +197,7 @@
 
         [AutoValidateAntiforgeryToken]
         [HttpPost]
-        public async Task<IActionResult> AddFundsAsync(DebitCard debitCardOfSender, int id, int amountOfFunds)
+        public async Task<IActionResult> AddFundsAsync(DebitCard debitCardOfSender, int id, double amountOfFunds)
         {
             // id stands for the id of the receiver's debit card
             var cardOfSender = this.accountService.GetDebitCard(debitCardOfSender);
