@@ -160,12 +160,12 @@
                     var card = new DebitCard()
                     {
                         Account = currLoggedUser,
-                        IBAN = "BG" + random.Next(0000, 9999) + "GLIGI" + random.Next(00000000, 99999999),
+                        IBAN = currLoggedUser.IBAN,
                         CardBalance = 200,
                         CardNumber = debitCard.CardNumber,
                         ExpirationDate = debitCard.ExpirationDate,
                         CreatedOn = DateTime.UtcNow,
-                        Currency = debitCard.Currency,
+                        Currency = currLoggedUser.Currency,
                         CVCCode = debitCard.CVCCode,
                         Id = debitCard.Id,
                     };
