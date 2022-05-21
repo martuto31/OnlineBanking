@@ -157,6 +157,7 @@
 
                     var currLoggedUser = this.accountService.GetAccount(loggedUser);
 
+                    // Creating debit card with default value for the balance of the card set to 200.
                     var card = new DebitCard()
                     {
                         Account = currLoggedUser,
@@ -169,6 +170,11 @@
                         CVCCode = debitCard.CVCCode,
                         Id = debitCard.Id,
                     };
+
+                    // Adding the balance of the card to the balance of the account and updating the DB
+                    currLoggedUser.AccountBalance += card.CardBalance;
+                    this.accountsRepository.Update(currLoggedUser);
+                    await this.accountsRepository.SaveChangesAsync();
 
                     await this.debitCardsRepository.AddAsync(card);
                     await this.debitCardsRepository.SaveChangesAsync();
@@ -215,6 +221,7 @@
                         TransactionCurrency = debitCardOfSender.Currency,
                     };
 
+                    // Creating transaction for the debit card of the receiver
                     Transactions transactionForReceiver = new Transactions()
                     {
                         Payment = 0,
@@ -226,17 +233,27 @@
                         TransactionCurrency = debitCardOfSender.Currency,
                     };
 
-                    cardOfSender.CardBalance -= amountOfFunds;
-                    cardOfReceiver.CardBalance += amountOfFunds;
-
+                    // Adding the transactions to the db
                     await this.transactionRepository.AddAsync(transactionForSender);
                     await this.transactionRepository.AddAsync(transactionForReceiver);
+                    await this.transactionRepository.SaveChangesAsync();
 
+                    // Updating the cardBalance value in the database
+                    cardOfSender.CardBalance -= amountOfFunds;
+                    cardOfReceiver.CardBalance += amountOfFunds;
                     this.debitCardsRepository.Update(cardOfSender);
                     this.debitCardsRepository.Update(cardOfReceiver);
-
-                    await this.transactionRepository.SaveChangesAsync();
                     await this.debitCardsRepository.SaveChangesAsync();
+
+                    // Updating the balance of the accounts after the transaction
+                    var accountOfSender = this.accountService.GetAccountByIban(cardOfSender.IBAN);
+                    var accountOfReceiver = this.accountService.GetAccountByIban(cardOfReceiver.IBAN);
+                    accountOfSender.AccountBalance -= amountOfFunds;
+                    accountOfReceiver.AccountBalance += amountOfFunds;
+                    this.accountsRepository.Update(accountOfSender);
+                    this.accountsRepository.Update(accountOfSender);
+                    await this.accountsRepository.SaveChangesAsync();
+
 
                     return this.Ok("Succesfull transaction");
                 }

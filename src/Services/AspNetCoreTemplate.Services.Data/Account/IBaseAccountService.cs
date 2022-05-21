@@ -11,6 +11,8 @@
     {
         Account GetAccount(string username);
 
+        Account GetAccountByIban(string iban);
+
         bool CheckIfAccountExist(string username);
 
         bool CheckIfDebitCardExist(DebitCard debitCard);

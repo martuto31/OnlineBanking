@@ -33,6 +33,14 @@
             return selectedAccount;
         }
 
+        public Account GetAccountByIban(string iban)
+        {
+            var selectedAccount = this.accountsRepository.All()
+                .FirstOrDefault(x => x.IBAN == iban);
+
+            return selectedAccount;
+        }
+
         public virtual bool CheckIfAccountExist(string username)
         {
             bool exist = this.accountsRepository.All()
