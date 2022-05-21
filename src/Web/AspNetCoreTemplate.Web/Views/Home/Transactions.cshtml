@@ -14,7 +14,6 @@
                     <th style="width: 15vw">Основание</th>
                     <th style="width: 5vw">Постъпления</th>
                     <th style="width: 5vw">Плащания</th>
-                    <th style="width: 5vw">Разполагаемост</th>
                     <th style="width: 5vw">Валута</th>
                 </tr>
             </thead>
@@ -28,8 +27,7 @@
                     @* Showing the rounded value to 2 decimal places for the receipt, payment and balance*@
                     <td>@String.Format("{0:f2}", transaction.Receipt)</td>
                     <td>@String.Format("{0:f2}", transaction.Payment)</td>
-                    <td>@String.Format("{0:f2}", transaction.Balance)</td>
-                    <td>@transaction.TransactionCurrency</td>
+                    <td>@String.Format("{0:f2}", transaction.TransactionCurrency.ToString())</td>
                 </tr>
                 }
             </tbody>

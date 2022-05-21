@@ -24,8 +24,6 @@
         [Required]
         public double Payment { get; set; }
 
-        public double Balance { get; set; }
-
         public DebitCard DebitCard { get; set; }
     }
 }
