@@ -27,5 +27,6 @@
 
         DebitCard GetDebitCard(DebitCard debitCard);
 
+        decimal CurrencyConverter(decimal amount, Currency currencyFrom, Currency currencyTo);
     }
 }

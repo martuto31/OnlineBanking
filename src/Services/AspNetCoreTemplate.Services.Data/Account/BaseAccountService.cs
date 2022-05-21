@@ -112,5 +112,108 @@
                 return false;
             }
         }
+
+        public decimal CurrencyConverter(decimal amount, Currency currencyFrom, Currency currencyTo)
+        {
+            decimal multiplier = 0;
+
+            switch (currencyFrom)
+            {
+                case Currency.EUR:
+                    switch (currencyTo)
+                    {
+                        case Currency.USD:
+                            multiplier = 1.0559231M;
+                            break;
+                        case Currency.BGN:
+                            multiplier = 1.95583M;
+                            break;
+                        case Currency.RUB:
+                            multiplier = 65.467287M;
+                            break;
+                        case Currency.GBP:
+                            multiplier = 0.84527416M;
+                            break;
+                    }
+
+                    break;
+                case Currency.USD:
+                    switch (currencyTo)
+                    {
+                        case Currency.EUR:
+                            multiplier = 0.94703863M;
+                            break;
+                        case Currency.BGN:
+                            multiplier = 1.8522466M;
+                            break;
+                        case Currency.RUB:
+                            multiplier = 62.000049M;
+                            break;
+                        case Currency.GBP:
+                            multiplier = 0.80050728M;
+                            break;
+                    }
+
+                    break;
+                case Currency.BGN:
+                    switch (currencyTo)
+                    {
+                        case Currency.USD:
+                            multiplier = 0.53988493M;
+                            break;
+                        case Currency.EUR:
+                            multiplier = 0.51129188M;
+                            break;
+                        case Currency.RUB:
+                            multiplier = 33.472892M;
+                            break;
+                        case Currency.GBP:
+                            multiplier = 0.43218182M;
+                            break;
+                    }
+
+                    break;
+                case Currency.RUB:
+                    switch (currencyTo)
+                    {
+                        case Currency.USD:
+                            multiplier = 0.016129019M;
+                            break;
+                        case Currency.BGN:
+                            multiplier = 0.029874921M;
+                            break;
+                        case Currency.EUR:
+                            multiplier = 0.015274804M;
+                            break;
+                        case Currency.GBP:
+                            multiplier = 0.012911398M;
+                            break;
+                    }
+
+                    break;
+                case Currency.GBP:
+                    switch (currencyTo)
+                    {
+                        case Currency.USD:
+                            multiplier = 1.2492079M;
+                            break;
+                        case Currency.BGN:
+                            multiplier = 2.313841M;
+                            break;
+                        case Currency.RUB:
+                            multiplier = 77.45095M;
+                            break;
+                        case Currency.EUR:
+                            multiplier = 1.1830481M;
+                            break;
+                    }
+
+                    break;
+            }
+
+            decimal convertedValue = amount * multiplier;
+
+            return convertedValue;
+        }
     }
 }
