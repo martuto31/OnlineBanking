@@ -210,6 +210,8 @@
             // id stands for the id of the receiver's debit card
             var cardOfSender = this.accountService.GetDebitCard(debitCardOfSender);
             var cardOfReceiver = this.accountService.GetDebitCard(id);
+            var loggedUser = this.HttpContext.Session.GetString("username");
+            var currLoggedUser = this.accountService.GetAccount(loggedUser);
 
             // Checks if the the card exists.
             if (cardOfSender != null)
@@ -226,7 +228,7 @@
                         Date = DateTime.UtcNow,
                         DebitCard = cardOfSender,
                         Message = "Transfer of funds",
-                        TransactionCurrency = debitCardOfSender.Currency,
+                        TransactionCurrency = currLoggedUser.Currency,
                     };
 
                     // Creating transaction for the debit card of the receiver
@@ -238,7 +240,7 @@
                         Date = DateTime.UtcNow,
                         DebitCard = cardOfReceiver,
                         Message = "Transfer of funds",
-                        TransactionCurrency = debitCardOfSender.Currency,
+                        TransactionCurrency = currLoggedUser.Currency,
                     };
 
                     // Adding the transactions to the db

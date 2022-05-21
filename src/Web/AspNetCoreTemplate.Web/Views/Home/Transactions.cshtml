@@ -20,15 +20,15 @@
             <tbody style="background-color: #B2E7E8">
                 @foreach (var transaction in Model.Transactions)
                 {
-                <tr class="home-content-dataTable" style="height: 6vh">
-                    @* Showing the date as dd.MM.yyyy format*@
-                    <td>@String.Format("{0:dd.MM.yyyy}", transaction.Date)</td>
-                    <td>@transaction.Message</td>
-                    @* Showing the rounded value to 2 decimal places for the receipt, payment and balance*@
-                    <td>@String.Format("{0:f2}", transaction.Receipt)</td>
-                    <td>@String.Format("{0:f2}", transaction.Payment)</td>
-                    <td>@String.Format("{0:f2}", transaction.TransactionCurrency.ToString())</td>
-                </tr>
+                    <tr class="home-content-dataTable" style="height: 6vh">
+                        @* Showing the date as dd.MM.yyyy format*@
+                        <td>@String.Format("{0:dd.MM.yyyy}", transaction.Date)</td>
+                        <td>@transaction.Message</td>
+                        @* Showing the rounded value to 2 decimal places for the receipt, payment and balance*@
+                        <td>@String.Format("{0:f2}", transaction.Receipt)</td>
+                        <td>@String.Format("{0:f2}", transaction.Payment)</td>
+                        <td>@transaction.TransactionCurrency</td>
+                    </tr>
                 }
             </tbody>
         </table>
