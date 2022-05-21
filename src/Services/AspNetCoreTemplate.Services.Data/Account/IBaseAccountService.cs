@@ -17,6 +17,8 @@
 
         bool CheckIfDebitCardExist(DebitCard debitCard);
 
+        bool IsCardNumberUnique(string debitCardNumber);
+
         IEnumerable<TViewModel> GetAccDebitCards<TViewModel>(Account account);
 
         IEnumerable<TViewModel> GetAllTransactions<TViewModel>(DebitCard debitCard);

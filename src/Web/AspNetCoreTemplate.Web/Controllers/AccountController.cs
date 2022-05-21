@@ -156,29 +156,37 @@
                     Random random = new Random();
 
                     var currLoggedUser = this.accountService.GetAccount(loggedUser);
+                    var isCardNumberUnique = this.accountService.IsCardNumberUnique(debitCard.CardNumber);
 
-                    // Creating debit card with default value for the balance of the card set to 200.
-                    var card = new DebitCard()
+                    if (isCardNumberUnique)
                     {
-                        Account = currLoggedUser,
-                        IBAN = currLoggedUser.IBAN,
-                        CardBalance = 200,
-                        CardNumber = debitCard.CardNumber,
-                        ExpirationDate = debitCard.ExpirationDate,
-                        CreatedOn = DateTime.UtcNow,
-                        Currency = currLoggedUser.Currency,
-                        CVCCode = debitCard.CVCCode,
-                        Id = debitCard.Id,
-                    };
+                        // Creating debit card with default value for the balance of the card set to 200.
+                        var card = new DebitCard()
+                        {
+                            Account = currLoggedUser,
+                            IBAN = currLoggedUser.IBAN,
+                            CardBalance = 200,
+                            CardNumber = debitCard.CardNumber,
+                            ExpirationDate = debitCard.ExpirationDate,
+                            CreatedOn = DateTime.UtcNow,
+                            Currency = currLoggedUser.Currency,
+                            CVCCode = debitCard.CVCCode,
+                            Id = debitCard.Id,
+                        };
 
-                    // Adding the balance of the card to the balance of the account and updating the DB
-                    currLoggedUser.AccountBalance += card.CardBalance;
-                    this.accountsRepository.Update(currLoggedUser);
-                    await this.accountsRepository.SaveChangesAsync();
+                        // Adding the balance of the card to the balance of the account and updating the DB
+                        currLoggedUser.AccountBalance += card.CardBalance;
+                        this.accountsRepository.Update(currLoggedUser);
+                        await this.accountsRepository.SaveChangesAsync();
 
-                    await this.debitCardsRepository.AddAsync(card);
-                    await this.debitCardsRepository.SaveChangesAsync();
-                    return this.RedirectToAction("Index", "Home");
+                        await this.debitCardsRepository.AddAsync(card);
+                        await this.debitCardsRepository.SaveChangesAsync();
+                        return this.RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return this.BadRequest("Card number already exists");
+                    }
                 }
                 else
                 {

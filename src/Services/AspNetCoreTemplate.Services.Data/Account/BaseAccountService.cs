@@ -49,6 +49,15 @@
             return exist;
         }
 
+        public bool IsCardNumberUnique(string debitCardNumber)
+        {
+            bool isUnique = this.debitCardsRepository.All()
+                .Any(x => x.CardNumber == debitCardNumber);
+
+            // returns the opposite of the isUnique value because if that card number already exists, it will return true which will make isUnique true when it is not.
+            return !isUnique;
+        }
+
         public virtual IEnumerable<TViewModel> GetAccDebitCards<TViewModel>(Account account)
         {
             var debitCards = this.debitCardsRepository.All()
